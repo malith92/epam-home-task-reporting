@@ -5,6 +5,10 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using log4net;
 using log4net.Config;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
+using System.Security.Policy;
+using OpenQA.Selenium.Firefox;
 
 namespace HomeTaskWebDriverAdvanced.Tests
 {
