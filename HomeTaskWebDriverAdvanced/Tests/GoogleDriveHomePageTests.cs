@@ -7,7 +7,7 @@ using OpenQA.Selenium.Firefox;
 
 namespace HomeTaskWebDriverAdvanced.Tests
 {
-    //[Ignore("Ignoring to prioratize other tests")]
+    [Ignore("Ignoring to prioratize other tests")]
     [TestFixture]
     [Parallelizable(ParallelScope.All)]
     public class GoogleDriveHomePageTests : BaseTestObject
@@ -44,6 +44,8 @@ namespace HomeTaskWebDriverAdvanced.Tests
         [Test, Order(2)]
         public void TextFileDelete()
         {
+            log.Info("Text File Delete Test Started");
+
             _loginPage = new LoginPage(webDriver);
 
             _driveHomePage = _loginPage.Login(configurationFileReader.TestData.EmailCredentials.UserName, configurationFileReader.TestData.EmailCredentials.Password);
@@ -57,14 +59,16 @@ namespace HomeTaskWebDriverAdvanced.Tests
             bool deleteSuccessful = _myDriveSection.DeleteFileStatusIsDisplayed();
 
             Assert.IsTrue(deleteSuccessful);
+
+            log.Info("Text File Delete Test Ended");
         }
 
         [SetUp]
         public void SetUp()
         {
             FirefoxOptions filrefoxOptions = new FirefoxOptions();
-            filrefoxOptions.BrowserExecutableLocation = "C:\\Users\\UWANNMA\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
 
+            filrefoxOptions.BrowserExecutableLocation = "C:\\Users\\UWANNMA\\AppData\\Local\\Mozilla Firefox\\firefox.exe";
             webDriver = new RemoteWebDriver(new Uri("http://localhost:4444"), filrefoxOptions);
 
             log.Info("Browser opened");

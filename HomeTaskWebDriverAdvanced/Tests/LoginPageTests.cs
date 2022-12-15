@@ -21,12 +21,16 @@ namespace HomeTaskWebDriverAdvanced.Tests
         [Test]
         public void LoginTest()
         {
+            log.Info("Login Test Started");
+
             _loginPage = new LoginPage(webDriver);
 
             _emailAccountPage = _loginPage.Login(configurationFileReader.TestData.EmailCredentials.UserName, configurationFileReader.TestData.EmailCredentials.Password);
             bool loginSuccessful = _emailAccountPage.DriveLinkIsDisplayed();
 
             Assert.IsTrue(loginSuccessful);
+
+            log.Info("Login Test Ended");
         }
 
         [SetUp]
@@ -34,6 +38,9 @@ namespace HomeTaskWebDriverAdvanced.Tests
         {
             ChromeOptions chromeOptions = new ChromeOptions();
             webDriver = new RemoteWebDriver(new Uri("http://localhost:4444"), chromeOptions);
+
+            webDriver = new PageLoadWaitEnabledWebDriver(webDriver);
+            webDriver = new PageMaximizationEnabledWebDriver(webDriver);
 
             log.Info("Browser opened");
 
