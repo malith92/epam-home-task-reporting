@@ -32,6 +32,7 @@ namespace HomeTaskWebDriverAdvanced.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown() { }
 
+        /*
         [SetUp]
         public void SetUp()
         {
@@ -53,5 +54,6 @@ namespace HomeTaskWebDriverAdvanced.Tests
             webDriver.Quit();
             log.Info("Browser closed");
         }
+        */
     }
 }
