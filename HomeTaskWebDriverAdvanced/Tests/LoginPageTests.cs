@@ -1,8 +1,6 @@
 using NUnit.Framework;
 using HomeTaskWebDriverAdvanced.PageObjects;
 using HomeTaskWebDriverAdvanced.Driver;
-using HomeTaskWebDriverAdvanced.WebDriver;
-using OpenQA.Selenium.DevTools;
 using log4net;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;

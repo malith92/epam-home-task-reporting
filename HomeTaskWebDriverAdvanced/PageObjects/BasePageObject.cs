@@ -1,11 +1,13 @@
 ﻿using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium;
-
+using log4net;
 
 namespace HomeTaskWebDriverAdvanced.PageObjects
 {
     public abstract class BasePageObject
     {
+        private readonly ILog log = LogManager.GetLogger(typeof(BasePageObject));
+
         private IWebDriver _driver;
         private DefaultWait<IWebDriver> _defaultWait;
 
@@ -20,6 +22,8 @@ namespace HomeTaskWebDriverAdvanced.PageObjects
             _defaultWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
             _defaultWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
             _defaultWait.Message = "Element to be searched not found";
+
+            log.Debug("Default wait initilized in BasePageObject class");
         }
 
         public IWebDriver Driver { get => _driver; set => _driver = value; }
@@ -27,6 +31,8 @@ namespace HomeTaskWebDriverAdvanced.PageObjects
 
         public IWebElement HighLightElement(IWebElement element)
         {
+            log.Debug("Element Highlighter method called");
+
             IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor) _driver;
 
             jsExecutor.ExecuteScript("arguments[0].setAttribute('style', 'border:2px solid red; background:yellow')", element);
@@ -36,6 +42,8 @@ namespace HomeTaskWebDriverAdvanced.PageObjects
 
         public IWebElement JSExecutorClick(IWebElement element)
         {
+            log.Debug("JSExecutor method called");
+
             IJavaScriptExecutor jsExecutor = (IJavaScriptExecutor)_driver;
 
             jsExecutor.ExecuteScript("arguments[0].click();", element);

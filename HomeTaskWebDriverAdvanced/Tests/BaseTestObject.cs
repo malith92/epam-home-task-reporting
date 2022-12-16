@@ -14,10 +14,10 @@ namespace HomeTaskWebDriverAdvanced.Tests
 {
     public class BaseTestObject
     {
+        private readonly ILog log = LogManager.GetLogger(typeof(BaseTestObject));
+
         protected ConfigurationFileReader configurationFileReader;
         protected IWebDriver webDriver;
-
-        private readonly ILog log = LogManager.GetLogger(typeof(BaseTestObject));
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -31,29 +31,5 @@ namespace HomeTaskWebDriverAdvanced.Tests
 
         [OneTimeTearDown]
         public void OneTimeTearDown() { }
-
-        /*
-        [SetUp]
-        public void SetUp()
-        {
-            webDriver = WebDriverFactory.CreateWebDriver(configurationFileReader.ConfigData!.Browser!);
-
-            log.Info("Browser opened");
-
-            webDriver = new PageLoadWaitEnabledWebDriver(webDriver);
-            webDriver = new PageMaximizationEnabledWebDriver(webDriver);
-
-            webDriver.Navigate().GoToUrl(configurationFileReader.ConfigData.AppUrl);
-
-            log.Info("Navigated to Url");
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            webDriver.Quit();
-            log.Info("Browser closed");
-        }
-        */
     }
 }

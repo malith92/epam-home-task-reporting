@@ -25,6 +25,8 @@ namespace HomeTaskWebDriverAdvanced.PageObjects.DriveHomePageSections
             IWebElement textFile = base.DefaultWait.Until(_driver => _driver.FindElement(_textFilelementLocator(fileName)));
 
             builder.ClickAndHold(textFile).MoveToElement(textFilesFolder).Pause(TimeSpan.FromSeconds(1)).Release().Build().Perform();
+
+            log.Info("Text file move action sequence performed");
         }
 
         public bool MovedFileStatusIsDisplayed()
@@ -33,10 +35,16 @@ namespace HomeTaskWebDriverAdvanced.PageObjects.DriveHomePageSections
             try
             {
                 movedFileStatusIsDisplayed = base.DefaultWait.Until(_driver => _driver.FindElement(_undoSpanLocator)).Displayed;
+
+                log.Info("Moved File Status displayed : " + movedFileStatusIsDisplayed);
             }
             catch(NoSuchElementException e)
             {
+                Screenshot screenShot = ((ITakesScreenshot)base.Driver).GetScreenshot();
+                screenShot.SaveAsFile(AppDomain.CurrentDomain.BaseDirectory + "//MoveFileStatusError.png", ScreenshotImageFormat.Png);
+
                 movedFileStatusIsDisplayed = false;
+
                 log.Error(e);
             }
             
@@ -50,6 +58,8 @@ namespace HomeTaskWebDriverAdvanced.PageObjects.DriveHomePageSections
             IWebElement textFile = base.DefaultWait.Until(_driver => _driver.FindElement(_textFilelementLocator(fileName)));
 
             builder.Click(textFile).SendKeys(Keys.Delete).Build().Perform();
+
+            log.Info("Text file delete action sequence performed");
         }
 
         public bool DeleteFileStatusIsDisplayed()
@@ -58,9 +68,14 @@ namespace HomeTaskWebDriverAdvanced.PageObjects.DriveHomePageSections
             try
             {
                 deleteFileStatusIsDisplayed = base.DefaultWait.Until(_driver => _driver.FindElement(_undoButtonLocator)).Displayed;
+
+                log.Info("File Delete Status displayed : " + deleteFileStatusIsDisplayed);
             }
             catch (NoSuchElementException e)
             {
+                Screenshot screenShot = ((ITakesScreenshot)base.Driver).GetScreenshot();
+                screenShot.SaveAsFile(AppDomain.CurrentDomain.BaseDirectory + "//DeleteFileStatusError.png", ScreenshotImageFormat.Png);
+
                 deleteFileStatusIsDisplayed = false;
                 log.Error(e);
             }
