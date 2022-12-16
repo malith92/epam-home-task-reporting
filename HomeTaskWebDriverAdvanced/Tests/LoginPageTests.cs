@@ -4,6 +4,8 @@ using HomeTaskWebDriverAdvanced.Driver;
 using log4net;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
+using AventStack.ExtentReports;
+using NUnit.Framework.Interfaces;
 
 namespace HomeTaskWebDriverAdvanced.Tests
 {
@@ -34,6 +36,8 @@ namespace HomeTaskWebDriverAdvanced.Tests
         [SetUp]
         public void SetUp()
         {
+            _test = _extent.CreateTest(TestContext.CurrentContext.Test.Name);
+
             ChromeOptions chromeOptions = new ChromeOptions();
             webDriver = new RemoteWebDriver(new Uri("http://localhost:4444"), chromeOptions);
 
@@ -52,6 +56,31 @@ namespace HomeTaskWebDriverAdvanced.Tests
         {
             webDriver.Quit();
             log.Info("Browser closed");
+
+            var status = TestContext.CurrentContext.Result.Outcome.Status;
+            var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
+            ? ""
+            : string.Format("{0}", TestContext.CurrentContext.Result.StackTrace);
+            Status logstatus;
+
+            switch (status)
+            {
+                case TestStatus.Failed:
+                    logstatus = Status.Fail;
+                    break;
+                case TestStatus.Inconclusive:
+                    logstatus = Status.Warning;
+                    break;
+                case TestStatus.Skipped:
+                    logstatus = Status.Skip;
+                    break;
+                default:
+                    logstatus = Status.Pass;
+                    break;
+            }
+
+            _test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
+            _extent.Flush();
         }
     }
 }

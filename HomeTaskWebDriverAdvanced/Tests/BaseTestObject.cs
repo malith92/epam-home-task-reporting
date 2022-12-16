@@ -9,12 +9,17 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 using System.Security.Policy;
 using OpenQA.Selenium.Firefox;
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
 
 namespace HomeTaskWebDriverAdvanced.Tests
 {
     public class BaseTestObject
     {
         private readonly ILog log = LogManager.GetLogger(typeof(BaseTestObject));
+
+        protected ExtentReports _extent;
+        protected ExtentTest _test;
 
         protected ConfigurationFileReader configurationFileReader;
         protected IWebDriver webDriver;
@@ -27,9 +32,19 @@ namespace HomeTaskWebDriverAdvanced.Tests
             log.Info("log4net initialized");
 
             configurationFileReader = ConfigurationFileReader.GetInstance();
+
+            string dir = TestContext.CurrentContext.TestDirectory + "\\";
+            string fileName = this.GetType().ToString() + ".html";
+            ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(dir + fileName);
+
+            _extent = new ExtentReports();
+            _extent.AttachReporter(htmlReporter);
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() { }
+        public void OneTimeTearDown()
+        {
+            _extent.Flush();
+        }
     }
 }
